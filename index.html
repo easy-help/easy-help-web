@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <title>Easy Help</title>
+</head>
+ 
+<body>
+ 
+  <script>
+
+  	var xhr = new XMLHttpRequest();
+  	xhr.open('GET', "http://easy-help.herokuapp.com/website", true);
+    xhr.responseType = 'text'
+  	xhr.send()
+  	xhr.addEventListener("readystatechange", processRequest, false);
+
+  	function processRequest(e) {
+    if (xhr.readyState == 4) {
+        var response = xhr.responseText;
+        alert(response);
+    }
+}
+
+  </script>
+</body>
+ 
+</html>
