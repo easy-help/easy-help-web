@@ -4,59 +4,58 @@
 <head>
   <title>Easy Help</title>
   <script src="jquery-3.3.1.min.js"></script>
+
 </head>
 
 <body>
 
-  <script>
+<div id="app">
+    <ul>
+
+        <li v-for="doctor in doctors">
+        {{doctor.id}} {{doctor.firstName}}
+        </li>
+
+    </ul>
 
 
-  $.ajax({
+</div>
 
-    // The 'type' property sets the HTTP method.
-    // A value of 'PUT' or 'DELETE' will trigger a preflight request.
-    type: 'POST',
-
-    // The URL to make the request to.
-    url: 'http://easy-help-backend.herokuapp.com/api/hello-world',
-
-    // The 'contentType' property sets the 'Content-Type' header.
-    // The JQuery default for this property is
-    // 'application/x-www-form-urlencoded; charset=UTF-8', which does not trigger
-    // a preflight. If you set this value to anything other than
-    // application/x-www-form-urlencoded, multipart/form-data, or text/plain,
-    // you will trigger a preflight request.
-    contentType: 'application/json',
-
-    xhrFields: {
-      // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-      // This can be used to set the 'withCredentials' property.
-      // Set the value to 'true' if you'd like to pass cookies to the server.
-      // If this is enabled, your server must respond with the header
-      // 'Access-Control-Allow-Credentials: true'.
-      withCredentials: false
-    },
-
-    headers: {
-      // Set any custom headers here.
-      // If you set any non-simple headers, your server must include these
-      // headers in the 'Access-Control-Allow-Headers' response header.
-    },
-
-    success: function(data) {
-      alert(data.content)
-    },
-
-    error: function() {
-      // Here's where you handle an error response.
-      // Note that if the error was due to a CORS issue,
-      // this function will still fire, but there won't be any additional
-      // information about the error.
-    }
-  });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
-  </script>
+<script>
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+                doctors : []
+
+            }
+        },
+
+        created () {
+            // axios
+                fetch('https://easy-help-backend.herokuapp.com/api/doctors')
+                .then(response => response.json())
+                .then(json => {
+                    this.doctors = json
+                })
+
+                .catch(error => {
+                    console.log(error)
+                    this.info = true
+                })
+                .finally(() => this.loading = false)
+        }
+
+
+
+    })
+
+</script>
+
 </body>
 
 </html>
